@@ -1,0 +1,23 @@
+{
+  "name": "locustjs",
+  "version": "1.0.0",
+  "description": "A javascript framework with various utility libraries",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ironcodev/locustjs.git"
+  },
+  "keywords": [
+    "javascript",
+    "framework"
+  ],
+  "author": "Mansoor Omrani",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ironcodev/locustjs/issues"
+  },
+  "homepage": "https://github.com/ironcodev/locustjs#readme"
+}

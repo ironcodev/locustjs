@@ -1,10 +1,11 @@
 {
   "name": "locustjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A javascript framework with various utility libraries",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --mode development",
+    "deploy": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/ironcodev/locustjs/issues"
   },
-  "homepage": "https://github.com/ironcodev/locustjs#readme"
+  "homepage": "https://github.com/ironcodev/locustjs#readme",
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "babel-loader": "^8.1.0",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
 }

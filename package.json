@@ -1,6 +1,6 @@
 {
   "name": "locustjs",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A javascript framework with various utility libraries",
   "main": "src/index.js",
   "scripts": {

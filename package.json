@@ -1,9 +1,11 @@
 {
   "name": "locustjs",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A javascript framework with various utility libraries",
   "main": "index.js",
-  "scripts": { },
+  "scripts": {
+    "test": "babel-node test-run.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ironcodev/locustjs.git"
@@ -18,5 +20,12 @@
     "url": "https://github.com/ironcodev/locustjs/issues"
   },
   "homepage": "https://github.com/ironcodev/locustjs#readme",
-  "devDependencies": { }
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.0",
+    "jasmine": "^3.5.0",
+    "util.promisify": "^1.0.1"
+  }
 }

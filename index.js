@@ -1,12 +1,27 @@
-const Version = '1.0.6';
+const Version = '1.0.7';
 
-const isEmpty       = (x) => x == null || (typeof x == 'string' && x.trim() == '');
-const isSomeString  = (x) => typeof x == 'string' && x.trim() != '';
-const isSomeObject  = (x) => typeof x == 'object' && x != null;
-const isFunction    = (x) => typeof x == 'function' && typeof x.nodeType !== 'number';
-const isNumeric     = (x) => ['number', 'string'].indexOf(typeof x) >= 0 && !isNaN(x - parseFloat(x));	// borowwed from jQuery
-const isPrimitive   = (x) => !isEmpty(x) && !isFunction(x) && !isSomeObject(x) && !Array.isArray(x);
-const isArray		= Array.isArray;
+const isString       = (x) => typeof x == 'string' || x instanceof String;
+const isNumber       = (x) => (typeof x == 'number' || x instanceof Number) && !isNaN(x);
+const isDate         = (x) => x instanceof Date && !isNaN(x.valueOf());
+const isBool         = (x) => typeof x == 'boolean' || x instanceof Boolean;
+const isaN      	 = isNumber;
+const isEmpty        = (x) => x == null || (isString(x) && x.trim() == '');
+const isSomeString   = (x) => isString(x) && x.trim() != '';
+const isObject       = (x) => typeof x == 'object' && !isString(x) && !isNumber(x) && x != null;
+const isSomeObject   = (x) => isObject(x) && Object.keys(x).length > 0;
+const isFunction     = (x) => typeof x == 'function' && typeof x.nodeType !== 'number';
+const isNumeric      = (x) => (isSomeString(x) || isNumber(x)) && !isNaN(x - parseFloat(x));	// borowwed from jQuery
+const hasDate        = (x) => (isDate(x) || isString(x) || isNumber(x)) && !isNaN(Date.parse(x));
+const hasBool		 = (x) => isBool(x) || (isSomeString(x) && ['true', 'false'].indexOf(x.toLowerCase()) >= 0);
+const isFormatedDate = (x) => isSomeString(x) && (
+							/^\d{1,4}\.\d{1,4}\.\d{1,4}$/.test(x) ||
+							/^\d{1,4}-\d{1,4}-\d{1,4}$/.test(x) ||
+							/^\d{1,4}\/\d{1,4}\/\d{1,4}$/.test(x) ||
+							/^\d{1,4}\\\d{1,4}\\\d{1,4}$/.test(x)
+						);
+const isPrimitive    = (x) => isString(x) || isNumber(x) || isDate(x) || isBool(x);
+const isArray		 = Array.isArray;
+const isSomeArray	 = (x) => isArray(x) && x.length > 0;
 
 class BaseEnum {
     constructor(values, name) {
@@ -23,10 +38,10 @@ class BaseEnum {
             }
         } else if (isSomeObject(values)) {
             for (let key of Object.keys(values)) {
-                const value = values[key];
+				const value = values[key];
 
-                if (isPrimitive(value)) {
-                    this[key] = value;
+				if (isPrimitive(value)) {
+					this[key] = value;
                     this[value] = key;
                 }
             }
@@ -46,6 +61,51 @@ class BaseEnum {
 
         return result;
     }
+	validate(value) {
+		return this[value] != undefined
+	}
+	getString(value, defaultValue) {
+		if (!validate(defaultValue)) {
+			for (let key of Object.keys(this)) {
+				if (typeof key == 'string' && isPrimitive(this[key]) && !isNumeric(key) && key != 'name') {
+					defaultValue = key;
+					
+					break;
+				}
+			}
+		}
+		
+		let result = validate(value) ? value: defaultValue ? defaultValue: undefined;
+		
+		if (result != undefined) {
+			if (typeof result != 'string') {
+				result = this[result];
+			}
+		}
+		
+		return result;
+	}
+	getNumber(value, defaultValue) {
+		if (!validate(defaultValue)) {
+			for (let key of Object.keys(this)) {
+				if (typeof key == 'string' && isPrimitive(this[key]) && !isNumeric(key) && key != 'name') {
+					defaultValue = this[key];
+					
+					break;
+				}
+			}
+		}
+		
+		let result = validate(value) ? value: defaultValue ? defaultValue: undefined;
+		
+		if (result != undefined) {
+			if (!isNumeric(result)) {
+				result = this[result];
+			}
+		}
+		
+		return result;
+	}
 }
 
 const Enum = {
@@ -82,12 +142,23 @@ const NotImplementedException = x => `${x} is not implemented`;
 export {
     Version,
     NotImplementedException,
+	isString,
+	isNumber,
+	isBool,
+	isaN,
+	isDate,
     isEmpty,
     isSomeString,
+	isObject,
     isSomeObject,
     isFunction,
     isNumeric,
+	hasDate,
+	hasBool,
+	isFormatedDate,
     isPrimitive,
+	isArray,
+	isSomeArray,
     BaseEnum,
     Enum
 }

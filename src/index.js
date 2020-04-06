@@ -4,7 +4,7 @@ const isEmpty       = (x) => x == null || (typeof x == 'string' && x.trim() == '
 const isSomeString  = (x) => typeof x == 'string' && x.trim() != '';
 const isSomeObject  = (x) => typeof x == 'object' && x != null;
 const isFunction    = (x) => typeof x == 'function' && typeof x.nodeType !== 'number';
-const isNumeric     = (x) => (['number', 'string'].indexOf(typeof x) >= 0 && !isNaN(x - parseFloat(x));	// borowwed from jQuery
+const isNumeric     = (x) => ['number', 'string'].indexOf(typeof x) >= 0 && !isNaN(x - parseFloat(x));	// borowwed from jQuery
 const isPrimitive   = (x) => !isEmpty(x) && !isFunction(x) && !isSomeObject(x) && !Array.isArray(x);
 const isArray		= Array.isArray(x);
 

@@ -1,4 +1,4 @@
-const Version = '1.0.9';
+const Version = '1.0.10';
 
 const isString       = (x) => typeof x == 'string' || x instanceof String;
 const isNumber       = (x) => (typeof x == 'number' || x instanceof Number) && !isNaN(x);
@@ -51,7 +51,29 @@ class BaseEnum {
     equals(value1, value2) {
         return Enum.equals(this, value1, value2);
     }
+	getNames() {
+		let result = [];
+
+        for (let key of Object.keys(this)) {
+            if (typeof key == 'string' && isPrimitive(this[key]) && !isNumeric(key) && key != 'name') {
+                result.push(key)
+            }
+        }
+
+        return result;
+	}
     getValues() {
+        let result = [];
+
+        for (let key of Object.keys(this)) {
+            if (typeof key == 'string' && isPrimitive(this[key]) && !isNumeric(key) && key != 'name') {
+                result.push(this[key])
+            }
+        }
+
+        return result;
+    }
+	toArray() {
         let result = [];
 
         for (let key of Object.keys(this)) {
@@ -63,10 +85,10 @@ class BaseEnum {
         return result;
     }
 	isValid(value) {
-		return this[value] != undefined
+		return !(value == null || this[value] == undefined);
 	}
 	getString(value, defaultValue) {
-		if (!isValid(defaultValue)) {
+		if (!this.isValid(defaultValue)) {
 			for (let key of Object.keys(this)) {
 				if (typeof key == 'string' && isPrimitive(this[key]) && !isNumeric(key) && key != 'name') {
 					defaultValue = key;
@@ -76,7 +98,7 @@ class BaseEnum {
 			}
 		}
 		
-		let result = isValid(value) ? value: defaultValue ? defaultValue: undefined;
+		let result = this.isValid(value) ? value: defaultValue ? defaultValue: undefined;
 		
 		if (result != undefined) {
 			if (typeof result != 'string') {
@@ -87,20 +109,20 @@ class BaseEnum {
 		return result;
 	}
 	getNumber(value, defaultValue) {
-		if (!isValid(defaultValue)) {
+		if (!this.isValid(defaultValue)) {
 			for (let key of Object.keys(this)) {
 				if (typeof key == 'string' && isPrimitive(this[key]) && !isNumeric(key) && key != 'name') {
-					defaultValue = this[key];
+					defaultValue = key;
 					
 					break;
 				}
 			}
 		}
 		
-		let result = isValid(value) ? value: defaultValue ? defaultValue: undefined;
+		let result = this.isValid(value) ? value: defaultValue ? defaultValue: undefined;
 		
 		if (result != undefined) {
-			if (!isNumeric(result)) {
+			if (!isNumber(result)) {
 				result = this[result];
 			}
 		}

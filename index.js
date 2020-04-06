@@ -1,4 +1,4 @@
-const Version = '1.0.8';
+const Version = '1.0.9';
 
 const isString       = (x) => typeof x == 'string' || x instanceof String;
 const isNumber       = (x) => (typeof x == 'number' || x instanceof Number) && !isNaN(x);
@@ -62,11 +62,11 @@ class BaseEnum {
 
         return result;
     }
-	validate(value) {
+	isValid(value) {
 		return this[value] != undefined
 	}
 	getString(value, defaultValue) {
-		if (!validate(defaultValue)) {
+		if (!isValid(defaultValue)) {
 			for (let key of Object.keys(this)) {
 				if (typeof key == 'string' && isPrimitive(this[key]) && !isNumeric(key) && key != 'name') {
 					defaultValue = key;
@@ -76,7 +76,7 @@ class BaseEnum {
 			}
 		}
 		
-		let result = validate(value) ? value: defaultValue ? defaultValue: undefined;
+		let result = isValid(value) ? value: defaultValue ? defaultValue: undefined;
 		
 		if (result != undefined) {
 			if (typeof result != 'string') {
@@ -87,7 +87,7 @@ class BaseEnum {
 		return result;
 	}
 	getNumber(value, defaultValue) {
-		if (!validate(defaultValue)) {
+		if (!isValid(defaultValue)) {
 			for (let key of Object.keys(this)) {
 				if (typeof key == 'string' && isPrimitive(this[key]) && !isNumeric(key) && key != 'name') {
 					defaultValue = this[key];
@@ -97,7 +97,7 @@ class BaseEnum {
 			}
 		}
 		
-		let result = validate(value) ? value: defaultValue ? defaultValue: undefined;
+		let result = isValid(value) ? value: defaultValue ? defaultValue: undefined;
 		
 		if (result != undefined) {
 			if (!isNumeric(result)) {

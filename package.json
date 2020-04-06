@@ -1,8 +1,8 @@
 {
   "name": "locustjs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A javascript framework with various utility libraries",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "scripts": {
     "build": "webpack --mode development",
     "deploy": "webpack --mode production"

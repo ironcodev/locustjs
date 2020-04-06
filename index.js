@@ -1,4 +1,4 @@
-const Version = '1.0.7';
+const Version = '1.0.8';
 
 const isString       = (x) => typeof x == 'string' || x instanceof String;
 const isNumber       = (x) => (typeof x == 'number' || x instanceof Number) && !isNaN(x);
@@ -22,6 +22,7 @@ const isFormatedDate = (x) => isSomeString(x) && (
 const isPrimitive    = (x) => isString(x) || isNumber(x) || isDate(x) || isBool(x);
 const isArray		 = Array.isArray;
 const isSomeArray	 = (x) => isArray(x) && x.length > 0;
+const isNamespace	 = (n) => /^[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z][a-zA-Z0-9]*)*$/.test(n);
 
 class BaseEnum {
     constructor(values, name) {
@@ -159,6 +160,7 @@ export {
     isPrimitive,
 	isArray,
 	isSomeArray,
+	isNamespace,
     BaseEnum,
     Enum
 }
